@@ -1,0 +1,26 @@
+[tasks.generate]
+description = "Xcode プロジェクト生成"
+run = "bash scripts/generate-projects.sh"
+
+[tasks.dev]
+description = "API ローカル開発サーバー起動"
+run = "cd apps/api && npm run dev"
+
+[tasks.test]
+description = "API テスト実行"
+run = "cd apps/api && npm test"
+
+[tasks.deploy]
+description = "API を本番にデプロイ"
+run = "cd apps/api && npx wrangler deploy"
+
+[tasks."deploy:migrate"]
+description = "本番 DB にマイグレーション適用"
+run = "cd apps/api && npx wrangler d1 migrations apply shoplist-db --remote"
+
+[tasks."build:ios"]
+description = "iOS アプリを Xcode で開く (実機接続後 Cmd+R でインストール)"
+run = """
+bash scripts/generate-projects.sh
+open apps/ios/Shoplist.xcodeproj
+"""

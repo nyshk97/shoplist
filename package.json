@@ -1,0 +1,8 @@
+{
+  "name": "shoplist",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ]
+}

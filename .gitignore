@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+
+# Cloudflare
+.wrangler/
+.dev.vars
+
+# TypeScript
+dist/
+*.tsbuildinfo
+
+# Xcode / Swift
+DerivedData/
+.build/
+*.xcodeproj
+*.xcuserstate
+*.xcworkspace/xcuserdata/
+
+# Build
+build/
+
+# macOS
+.DS_Store
+
+# Environment
+.env
+.env.local
+
+# Generated secrets
+Secrets.swift
