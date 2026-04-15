@@ -1,11 +1,9 @@
 import SwiftUI
-import UniformTypeIdentifiers
 
 struct ContentView: View {
     @State private var viewModel = ItemViewModel()
     @State private var editingItemId: String?
     @State private var editingName: String = ""
-    @State private var draggingItemId: String?
     @FocusState private var isInputFocused: Bool
     @Environment(\.scenePhase) private var scenePhase
 
@@ -63,15 +61,9 @@ struct ContentView: View {
                 Section {
                     ForEach(viewModel.unpurchasedItems) { item in
                         itemRow(item)
-                            .onDrag {
-                                draggingItemId = item.id
-                                return NSItemProvider(object: item.id as NSString)
-                            }
-                            .onDrop(of: [UTType.text], delegate: ItemDropDelegate(
-                                itemId: item.id,
-                                viewModel: viewModel,
-                                draggingItemId: $draggingItemId
-                            ))
+                    }
+                    .onMove { source, destination in
+                        viewModel.moveItem(from: source, to: destination)
                     }
                 }
             }
@@ -190,34 +182,5 @@ struct ContentView: View {
         let relative = RelativeDateTimeFormatter()
         relative.locale = Locale(identifier: "ja_JP")
         return relative.localizedString(for: date, relativeTo: .now)
-    }
-}
-
-// MARK: - Drop Delegate
-
-struct ItemDropDelegate: DropDelegate {
-    let itemId: String
-    let viewModel: ItemViewModel
-    @Binding var draggingItemId: String?
-
-    func performDrop(info: DropInfo) -> Bool {
-        viewModel.syncReorder()
-        draggingItemId = nil
-        return true
-    }
-
-    func dropEntered(info: DropInfo) {
-        guard let draggingId = draggingItemId, draggingId != itemId else { return }
-        withAnimation(.default) {
-            viewModel.moveItem(fromId: draggingId, toId: itemId)
-        }
-    }
-
-    func dropUpdated(info: DropInfo) -> DropProposal? {
-        DropProposal(operation: .move)
-    }
-
-    func validateDrop(info: DropInfo) -> Bool {
-        true
     }
 }

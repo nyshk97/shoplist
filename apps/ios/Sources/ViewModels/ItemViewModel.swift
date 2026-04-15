@@ -86,15 +86,11 @@ final class ItemViewModel {
         }
     }
 
-    func moveItem(fromId: String, toId: String) {
+    func moveItem(from source: IndexSet, to destination: Int) {
         var unpurchased = unpurchasedItems
-        guard let fromIndex = unpurchased.firstIndex(where: { $0.id == fromId }),
-              let toIndex = unpurchased.firstIndex(where: { $0.id == toId }),
-              fromIndex != toIndex else { return }
-
-        let item = unpurchased.remove(at: fromIndex)
-        unpurchased.insert(item, at: toIndex)
+        unpurchased.move(fromOffsets: source, toOffset: destination)
         items = unpurchased + purchasedItems
+        syncReorder()
     }
 
     func syncReorder() {
