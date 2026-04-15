@@ -22,8 +22,18 @@ struct ContentView: View {
                     listView
                 }
             }
-            .navigationTitle("買い物リスト")
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
+                ToolbarItem(placement: .principal) {
+                    HStack(spacing: 8) {
+                        Image("AppIconImage")
+                            .resizable()
+                            .frame(width: 28, height: 28)
+                            .clipShape(RoundedRectangle(cornerRadius: 6))
+                        Text("Shoplist")
+                            .font(.system(size: 18, weight: .semibold))
+                    }
+                }
                 ToolbarItem(placement: .bottomBar) {
                     addItemBar
                 }
