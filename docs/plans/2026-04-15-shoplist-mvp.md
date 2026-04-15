@@ -41,7 +41,7 @@ iOS で使える買い物リストアプリを作る。データは Cloudflare W
   - `DELETE /items/:id` — 削除
   - `PATCH /items` — 一括並び替え（reorder）
 - [x] Bearer トークン認証ミドルウェア
-- [ ] テスト（Vitest + miniflare）
+- [x] テスト（Vitest + miniflare）
 
 ### Phase 2 の確認 [AI🤖]
 - [x] curl で全エンドポイントの動作確認
@@ -66,7 +66,7 @@ iOS で使える買い物リストアプリを作る。データは Cloudflare W
 - [x] アプリ側で変更時に `WidgetCenter.shared.reloadAllTimelines()` 呼び出し
 
 ### Phase 4 の確認 [人間👨‍💻]
-- [ ] Xcode でビルドし iPhone にインストール
+- [x] Xcode でビルドし iPhone にインストール
 - [ ] アイテムの追加・編集・削除・購入済みトグル・並び替えの動作確認
 - [ ] ウィジェットの表示確認
 - [ ] 購入済みアイテムが12時間後に非表示になることの確認（API レベルで確認済み）
@@ -75,7 +75,7 @@ iOS で使える買い物リストアプリを作る。データは Cloudflare W
 - [x] [AI🤖] wrangler.toml に本番 D1 の database_id を設定
 - [x] [AI🤖] マイグレーション適用コマンドを用意
 - [x] [人間👨‍💻] `npx wrangler deploy` で本番デプロイ
-- [ ] [人間👨‍💻] 本番 API に対して iOS アプリで動作確認
+- [x] [人間👨‍💻] 本番 API に対して iOS アプリで動作確認（実機で動作確認済み）
 
 ## ログ
 ### 試したこと・わかったこと
