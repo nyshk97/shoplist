@@ -1,41 +1,41 @@
 # Shoplist
 
-シンプルな買い物リストアプリ。iOS ネイティブアプリ + Cloudflare Workers API のモノレポ構成。
+A simple shopping list app. Monorepo with a native iOS app and a Cloudflare Workers API.
 
-## 構成
+## Structure
 
 ```
 apps/
   api/     Hono + Cloudflare Workers + D1 (REST API)
-  ios/     SwiftUI iOS アプリ + ウィジェット
+  ios/     SwiftUI iOS app + Home Screen widget
 packages/
-  shared/  共通の型定義 (TypeScript)
+  shared/  Shared TypeScript type definitions
 ```
 
-## 技術スタック
+## Tech Stack
 
 **API:** Hono / Cloudflare Workers / D1 (SQLite) / Vitest
 
 **iOS:** SwiftUI / Swift Concurrency / WidgetKit
 
-## セットアップ
+## Setup
 
 ### API
 
 ```sh
 npm install
 cd apps/api
-npx wrangler dev          # ローカル開発
-npx wrangler deploy       # デプロイ
+npx wrangler dev          # Local development
+npx wrangler deploy       # Deploy to production
 ```
 
 ### iOS
 
-[XcodeGen](https://github.com/yonaskolb/XcodeGen) + `project.yml` でプロジェクトを生成:
+Uses [XcodeGen](https://github.com/yonaskolb/XcodeGen) with `project.yml` to generate the Xcode project:
 
 ```sh
 cd apps/ios
-cp .env.example .env      # API_URL と API_SECRET を設定
+cp .env.example .env      # Set API_URL and API_SECRET
 bash ../../scripts/generate-projects.sh
 open Shoplist.xcodeproj
 ```
