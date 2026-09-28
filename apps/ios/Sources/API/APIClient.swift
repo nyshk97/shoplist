@@ -3,8 +3,14 @@ import Foundation
 actor APIClient {
     static let shared = APIClient()
 
+    #if DEBUG
+    // シミュレータでの動作確認時に本番データを触らないよう、ローカルの API に向けられるようにする
+    private let baseURL = ProcessInfo.processInfo.environment["SHOPLIST_API_URL"] ?? "https://shoplist-api.d0ne1s-todo.workers.dev"
+    private let secret = ProcessInfo.processInfo.environment["SHOPLIST_API_SECRET"] ?? Secrets.apiSecret
+    #else
     private let baseURL = "https://shoplist-api.d0ne1s-todo.workers.dev"
     private let secret = Secrets.apiSecret
+    #endif
 
     private let decoder = JSONDecoder()
 

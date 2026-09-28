@@ -27,6 +27,20 @@ targets:
         INFOPLIST_KEY_UISupportedInterfaceOrientations: UIInterfaceOrientationPortrait
         INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad: "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
 
+  ShoplistUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources:
+      - UITests
+    dependencies:
+      - target: Shoplist
+    settings:
+      base:
+        TEST_TARGET_NAME: Shoplist
+        GENERATE_INFOPLIST_FILE: true
+        SWIFT_VERSION: "5.9"
+        DEVELOPMENT_TEAM: DEVELOPMENT_TEAM_PLACEHOLDER
+
   ShoplistWidgetExtension:
     type: app-extension
     platform: iOS
