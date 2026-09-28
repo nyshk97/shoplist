@@ -110,13 +110,16 @@ NavigationStack {
 - 下: 購入日時（`.caption` + `.secondary`）
 
 ### Swipe Actions
-- 右スワイプ: 購入済みトグル（`.green`、`checkmark.circle.fill`）
-- 左スワイプ: 削除（`.red`、`trash`）
+- 右スワイプ: 購入済みトグル（`.green`、未購入→`checkmark.circle.fill` / 購入済み→`arrow.uturn.backward`）
+  - 行幅の 25% を超えて離したら確定する一発操作（ボタンを出してタップ、の 2 手にしない）
+  - 標準の `.swipeActions` は端まで引かないと確定しないため、`SwipeToToggleRow` で自前実装している
+  - しきい値を越えた瞬間に軽い触覚フィードバック
+- 左スワイプ: 削除（`.red`、`trash`）。誤操作で戻せないので標準の `.swipeActions` のまま（ボタンを出してタップ）
 
 ### 追加フォーム
-- List 最下部 or ツールバーの `+` ボタンからシートで表示
-- TextField + 確定ボタンのシンプルな構成
-- 追加後は自動で TextField をクリア、リストの先頭にアイテム表示
+- ツールバー（`.bottomBar`）に常設の TextField
+- return で追加し、キーボードは閉じずに続けて入力できる（通信を待たずに TextField をクリア）
+- 空のまま return でキーボードを閉じる
 
 ### Empty State
 - リストが空の場合、`ContentUnavailableView` を表示
@@ -153,13 +156,13 @@ NavigationStack {
 - SF Symbols を使う
 - Dynamic Type をサポートする
 - `.insetGrouped` List スタイルを使う
-- スワイプアクションは `.swipeActions` modifier で実装する
+- スワイプアクションは `.swipeActions` modifier で実装する（例外: 右スワイプの購入済みトグルは一発確定のため自前実装）
 - 空状態は `ContentUnavailableView` で表示する
 
 ### Don't
 - ハードコードした色（`Color(red:green:blue:)`、hex 値）を使わない
 - カスタムフォントやフォントサイズの直接指定をしない
-- UIKit コンポーネントを SwiftUI にブリッジしない（SwiftUI だけで完結）
+- UIKit コンポーネントを SwiftUI にブリッジしない（SwiftUI だけで完結）。例外: 右スワイプの開始判定に `UIGestureRecognizerRepresentable` で `UIPanGestureRecognizer` を使う（`DragGesture` は向きで開始を断れず、左スワイプの削除と縦スクロールを奪うため）
 - 過度なカスタムアニメーションを追加しない
 - NavigationStack 以外のナビゲーションパターンを使わない
 - サードパーティ UI ライブラリを導入しない

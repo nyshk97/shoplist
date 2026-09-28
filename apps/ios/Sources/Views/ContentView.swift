@@ -92,10 +92,24 @@ struct ContentView: View {
     // MARK: - Item Row
 
     private func itemRow(_ item: Item) -> some View {
+        SwipeToToggleRow(isPurchased: item.purchased) {
+            togglePurchased(item)
+        } content: {
+            itemRowContent(item)
+        }
+        .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+            Button(role: .destructive) {
+                Task { await viewModel.deleteItem(item) }
+            } label: {
+                Label("削除", systemImage: "trash")
+            }
+        }
+    }
+
+    private func itemRowContent(_ item: Item) -> some View {
         HStack(spacing: 12) {
             Button {
-                UIImpactFeedbackGenerator(style: item.purchased ? .light : .medium).impactOccurred()
-                Task { await viewModel.togglePurchased(item) }
+                togglePurchased(item)
             } label: {
                 Image(systemName: item.purchased ? "checkmark.circle.fill" : "circle")
                     .font(.title3)
@@ -135,25 +149,11 @@ struct ContentView: View {
                 }
             }
         }
-        .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-            Button(role: .destructive) {
-                Task { await viewModel.deleteItem(item) }
-            } label: {
-                Label("削除", systemImage: "trash")
-            }
-        }
-        .swipeActions(edge: .leading, allowsFullSwipe: true) {
-            Button {
-                UIImpactFeedbackGenerator(style: item.purchased ? .light : .medium).impactOccurred()
-                Task { await viewModel.togglePurchased(item) }
-            } label: {
-                Label(
-                    item.purchased ? "未購入に戻す" : "購入済み",
-                    systemImage: item.purchased ? "arrow.uturn.backward" : "checkmark.circle.fill"
-                )
-            }
-            .tint(.green)
-        }
+    }
+
+    private func togglePurchased(_ item: Item) {
+        UIImpactFeedbackGenerator(style: item.purchased ? .light : .medium).impactOccurred()
+        Task { await viewModel.togglePurchased(item) }
     }
 
     // MARK: - Add Item
@@ -174,10 +174,9 @@ struct ContentView: View {
                     if name.isEmpty {
                         isInputFocused = false
                     } else {
-                        Task {
-                            await viewModel.addItem()
-                            isInputFocused = true
-                        }
+                        // return で閉じたキーボードを通信を待たずに開き直し、続けて入力できるようにする
+                        isInputFocused = true
+                        Task { await viewModel.addItem() }
                     }
                 }
         }

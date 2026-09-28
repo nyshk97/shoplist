@@ -2,7 +2,7 @@ name: Shoplist
 options:
   bundleIdPrefix: com.d0ne1s
   deploymentTarget:
-    iOS: "17.0"
+    iOS: "18.0"
   xcodeVersion: "16.0"
 
 targets:
