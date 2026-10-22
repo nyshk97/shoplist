@@ -34,9 +34,9 @@ struct ContentView: View {
                             .font(.system(size: 18, weight: .semibold))
                     }
                 }
-                ToolbarItem(placement: .bottomBar) {
-                    addItemBar
-                }
+            }
+            .safeAreaInset(edge: .bottom) {
+                addItemBar
             }
             .overlay(alignment: .top) {
                 if let error = viewModel.error {
@@ -180,6 +180,11 @@ struct ContentView: View {
                     }
                 }
         }
+        .padding(.horizontal, 12)
+        .padding(.vertical, 10)
+        .glassCapsule()
+        .padding(.horizontal, 16)
+        .padding(.bottom, 8)
     }
 
     // MARK: - Helpers
@@ -191,5 +196,16 @@ struct ContentView: View {
         let relative = RelativeDateTimeFormatter()
         relative.locale = Locale(identifier: "ja_JP")
         return relative.localizedString(for: date, relativeTo: .now)
+    }
+}
+
+private extension View {
+    @ViewBuilder
+    func glassCapsule() -> some View {
+        if #available(iOS 26, *) {
+            glassEffect(.regular.interactive(), in: .capsule)
+        } else {
+            background(.bar, in: Capsule())
+        }
     }
 }

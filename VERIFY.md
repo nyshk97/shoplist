@@ -29,3 +29,5 @@ grep -E "RESULT|Test Case .*(passed|failed)|\*\* TEST" /tmp/uitest.log
 - キーボードのテストは、遅延の中継を通さないと、通信を待ってから再フォーカスする実装でも通ってしまう（通信が速すぎて差が出ない）。**2 を省かない**
 - Xcode 27 では Simulator.app が `Xcode.app/Contents/Applications/DeviceHub.app` に置き換わっている
 - `xcrun simctl io booted screenshot` は、複数のシミュレータが起動していると別の端末を撮る。UDID を指定する
+- 下の入力欄の幅は`testAddFieldSpansWidth`で見る（`RESULT add-field row=… idle=… focused=…`。入力欄がリストの行の7割を超えていれば合格）。入力欄をツールバー（`.bottomBar`）に置いていたころ、iOS 27で111ptに縮んだ（ツールバーの項目の幅はOSが決める。いまは`safeAreaInset`で自前に置いている）。**新しいiOSが出たらそのランタイムで回す**
+- iOS 27のシミュレータは`xcodebuild -downloadPlatform iOS`で入る。**iOS 27.1のランタイムはiPhone Duo専用**で、iPhone Air・17 Pro等は27.0のランタイムが要る（2026-10-22時点）。iPhone Duoは画面の右側がセーフエリアの外なので、幅はウィンドウでなくリストの行と比べる

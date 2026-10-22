@@ -150,6 +150,20 @@ final class ShoplistUITests: XCTestCase {
         XCTAssertFalse(kb3, "空で return を押したら閉じる")
     }
 
+    /// 入力欄がリストの行と同じくらいの幅に広がっている（iOS 27 でツールバーが中身の幅に縮んだ）。
+    /// 画面の端にセーフエリアがある機種（iPhone Duo）もあるので、ウィンドウでなく行の幅と比べる
+    func testAddFieldSpansWidth() {
+        let field = app.textFields["アイテムを追加"]
+        let row = app.cells.firstMatch.frame.width
+        let idle = field.frame.width
+        field.tap()
+        XCTAssertTrue(app.keyboards.firstMatch.waitForExistence(timeout: 3))
+        let focused = field.frame.width
+        print("RESULT add-field row=\(row) idle=\(idle) focused=\(focused)")
+        XCTAssertGreaterThan(idle / row, 0.7)
+        XCTAssertGreaterThan(focused / row, 0.7)
+    }
+
     func testScrollStillWorks() {
         let first = app.staticTexts["卵"]
         let startY = first.frame.minY
