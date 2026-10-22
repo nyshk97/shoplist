@@ -39,3 +39,9 @@ cp .env.example .env      # Set API_URL and API_SECRET
 bash ../../scripts/generate-projects.sh
 open Shoplist.xcodeproj
 ```
+
+To build a Release and install it on a paired iPhone over Wi-Fi (no USB; unlock the device first):
+
+```sh
+mise run ios:device
+```

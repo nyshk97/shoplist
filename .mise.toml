@@ -18,6 +18,11 @@ run = "cd apps/api && npx wrangler deploy"
 description = "本番 DB にマイグレーション適用"
 run = "cd apps/api && npx wrangler d1 migrations apply shoplist-db --remote"
 
+[tasks."ios:device"]
+description = "iOS アプリを実機に Release で入れて起動 (ペアリング済みなら USB 不要・端末のロック解除が必要)"
+usage = 'arg "[device]" help="入れる端末（名前・iPhone / iPad・UDID の一部。all で全部）。実機が 1 台なら省略可" default=""'
+run = 'bash scripts/install-ios-device.sh "$usage_device"'
+
 [tasks."build:ios"]
 description = "iOS アプリを Xcode で開く (実機接続後 Cmd+R でインストール)"
 run = """
