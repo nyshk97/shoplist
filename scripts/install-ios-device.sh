@@ -19,7 +19,9 @@ DEVICES=$(WANT="$WANT" LIST="$LIST" python3 -c "
 import json, os, sys
 want = os.environ['WANT'].lower()
 d = json.load(open(os.environ['LIST']))['result']['devices']
-p = [x for x in d if x['connectionProperties'].get('pairingState') == 'paired' and x['hardwareProperties'].get('reality') != 'simulated']
+# iPhone・iPad だけ（ペアした Apple Watch も同じ一覧に出て、引数なしだと「複数ある」で止まった。2026-11-21）
+p = [x for x in d if x['connectionProperties'].get('pairingState') == 'paired' and x['hardwareProperties'].get('reality') != 'simulated'
+     and x['hardwareProperties'].get('platform') == 'iOS']
 def label(x): return f\"{x['hardwareProperties'].get('deviceType', '?')} {x['deviceProperties'].get('name', '?')}\"
 if want and want != 'all':
     p = [x for x in p if want in x['hardwareProperties']['udid'].lower() or want in label(x).lower()]
